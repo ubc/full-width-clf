@@ -101,7 +101,10 @@ Class UBC_Full_Width_Theme_Options {
 		
 		$class = 'UBC_Collab_Theme_Options';
 		?>
-		 
+		<div class="explanation"><a href="#" class="explanation-help">Info</a>
+			
+			<div>For more information on full width layout implementation and example, please refer to <a href="http://clf.ubc.ca/design-specifications/#layout-options" target="_blank">UBC CLF Layout Options</a>.</div>
+		</div>
 		<div id="clf-full-width">
 		<?php
 	    foreach ( UBC_Full_Width_Theme_Options::ubc_clf_full_width_theme() as $button ) {
