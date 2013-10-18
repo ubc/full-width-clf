@@ -13,7 +13,8 @@
  */
 
 function make_full_width() {
-	UBC_Collab_CLF::$full_width = true;
+	if( class_exists( 'UBC_Collab_CLF' ) )
+		UBC_Collab_CLF::$full_width = true;
 }
 add_action('init', 'make_full_width');
 
@@ -21,7 +22,7 @@ Class UBC_Full_Width_Theme_Options {
 	
 	static $prefix;
 	
-	function init() {
+	public static function init() {
 		self::$prefix = "wp-hybrid-clf";
 		
 		add_action('ubc_collab_theme_options_ui', array( __CLASS__, 'admin_ui'));
@@ -31,13 +32,13 @@ Class UBC_Full_Width_Theme_Options {
 		add_filter( 'ubc_collab_theme_options_validate', array(__CLASS__, 'validate'), 10, 2 );
 	}
 	
-	function admin_ui() {
+	static function admin_ui() {
 		// include CLF admin specific css file
 		wp_register_style('clf-full-width-admin-style', plugins_url('/css/admin-style.css' , __FILE__) );
 		wp_enqueue_style('clf-full-width-admin-style');
 	}
 	
-	function admin() {
+	static function admin() {
 		
 		// add_settings_section(
 			// 'clf-full', // Unique identifier for the settings section
@@ -62,7 +63,7 @@ Class UBC_Full_Width_Theme_Options {
 	 *
 	 * @since ubc-clf 1.0
 	 */
-	function default_values( $options ) {
+	static function default_values( $options ) {
 			
 		if (!is_array($options)) { 
 			$options = array();
@@ -80,8 +81,8 @@ Class UBC_Full_Width_Theme_Options {
 	/**
  	  * Returns an array of CLF Full Width Theme options 
  	  */
-	function ubc_clf_full_width_theme() {
-    	$clf_themes = array(
+	static function ubc_clf_full_width_theme() {
+    		$clf_themes = array(
     		'center' => array(
 	            'value' => 'center',
 	            'label' => __( 'Center Aligned', 'ubc-clf' )
@@ -97,7 +98,7 @@ Class UBC_Full_Width_Theme_Options {
 	/**
 	 * CLF Full Width Options
 	 */
-	function full_options(){
+	static function full_options(){
 		
 		$class = 'UBC_Collab_Theme_Options';
 		?>
@@ -137,7 +138,7 @@ Class UBC_Full_Width_Theme_Options {
 	 *
 	 * @since ubc-clf 1.0
 	 */
-	function validate( $output, $input ) {
+	static function validate( $output, $input ) {
 		
 		// Grab default values as base
 		$starter = UBC_Full_Width_Theme_Options::default_values( array() );
@@ -156,7 +157,7 @@ Class UBC_Full_Width_Theme_Options {
 	/** 
 	 * Return selected Full Width alignment option
 	 */
-	function get_align() {
+	static function get_align() {
 		return UBC_Collab_Theme_Options::get("clf-full-width");
 	}
 }
