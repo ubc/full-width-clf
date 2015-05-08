@@ -3,7 +3,7 @@
  * Plugin Name: Full Width CLF 
  * Plugin URI: http://www.ubc.ca
  * Description: Full Width of CLF 7.0 as according to UBC CLF requirements. Once activated, alignment options available in <a href="/wp-admin/themes.php?page=theme_options">Theme Options</a>
- * Version: 1.1 
+ * Version: 1.1.1
  * Author: Michael Kam 
  * Author URI: http://www.ubc.ca/
  *
