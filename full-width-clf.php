@@ -3,7 +3,7 @@
  * Plugin Name: Full Width CLF 
  * Plugin URI: http://www.ubc.ca
  * Description: Full Width of CLF 7.0 as according to UBC CLF requirements. Once activated, alignment options available in <a href="/wp-admin/themes.php?page=theme_options">Theme Options</a>
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: Michael Kam 
  * Author URI: http://www.ubc.ca/
  *
@@ -16,6 +16,7 @@ function make_full_width() {
 	if( class_exists( 'UBC_Collab_CLF' ) )
 		UBC_Collab_CLF::$full_width = true;
 }
+
 add_action('init', 'make_full_width');
 
 Class UBC_Full_Width_Theme_Options {
@@ -30,6 +31,8 @@ Class UBC_Full_Width_Theme_Options {
 		add_action("admin_init", array(__CLASS__, "admin"));
 		add_filter( 'ubc_collab_default_theme_options', array(__CLASS__, 'default_values'), 10,1 );
 		add_filter( 'ubc_collab_theme_options_validate', array(__CLASS__, 'validate'), 10, 2 );
+
+		add_filter( 'admin_init', array( __CLASS__, 'ubc_collab_theme_support_align_wide' ) );
 	}
 	
 	static function admin_ui() {
@@ -153,7 +156,32 @@ Class UBC_Full_Width_Theme_Options {
 	    
 		return $output;
 	}
-	
+
+	/**
+	 * Add theme support align-width if gutenberg is enabled on post id
+	 *
+	 * @return mixed add_theme_support( 'align-wide' )
+	 */
+	public function ubc_collab_theme_support_align_wide() {
+
+		// Double up on admin
+		if ( ! is_admin()  ) {
+			return;
+		}
+
+		// Get current post id
+		global $post;
+		$id = $_GET['post'];
+
+		// Get if post is setup for blocks
+		if ( ! use_block_editor_for_post( $id ) ) {
+			return;
+		}
+
+		return add_theme_support( 'align-wide' );
+
+	}
+
 	/** 
 	 * Return selected Full Width alignment option
 	 */
